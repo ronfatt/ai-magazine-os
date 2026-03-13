@@ -6,6 +6,8 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getIssueWorkspaceData } from "@/lib/data/issue-workspace";
 import { buildIssuePrintHtml } from "@/lib/pdf/issue-document";
 
+export const maxDuration = 60;
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },

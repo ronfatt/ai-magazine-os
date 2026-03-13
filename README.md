@@ -72,6 +72,7 @@ cp .env.example .env.local
 3. Add your Supabase project values to `.env.local`.
    Content ingestion uses `SUPABASE_SERVICE_ROLE_KEY` on the server so uploads can write to Storage and insert related rows.
    AI structuring also needs `OPENAI_API_KEY`. `OPENAI_MODEL` is optional and defaults to `gpt-4.1`.
+   Set `NEXT_PUBLIC_SITE_URL` to your app origin. For local dev use `http://localhost:3000`. For Vercel production use your final domain.
    Magic-link auth needs your Supabase Auth redirect URLs to include `/auth/callback` for local and production domains.
 
 4. Run the SQL in [supabase/schema.sql](/Users/rms/Desktop/Ai Project/ai-magazine-os/supabase/schema.sql) inside the Supabase SQL editor.
@@ -88,6 +89,29 @@ npm run dev
 
 7. Optional demo flow:
    Open `/dashboard` and click `Create Demo Workspace` to seed a realistic sample project, issue, content set, and starter pages.
+
+## Deploy To Vercel
+
+1. Import the GitHub repo into Vercel.
+2. Add these environment variables in Vercel Project Settings:
+   `NEXT_PUBLIC_SUPABASE_URL`
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   `NEXT_PUBLIC_SITE_URL`
+   `SUPABASE_SERVICE_ROLE_KEY`
+   `OPENAI_API_KEY`
+   `OPENAI_MODEL` (optional)
+3. Set `NEXT_PUBLIC_SITE_URL` to your production URL, for example `https://ai-magazine-os.vercel.app` or your custom domain.
+4. In Supabase Auth URL configuration, add:
+   `http://localhost:3000/auth/callback`
+   `https://your-production-domain/auth/callback`
+   any Vercel preview callback URLs you plan to test with
+5. Redeploy after env vars are saved.
+
+### Vercel Notes
+
+- `next.config.ts` marks `puppeteer` as a server external package for deployment builds.
+- Long-running analysis, page generation, and PDF routes export `maxDuration = 60` to better fit Vercel function execution.
+- PDF export is still the most runtime-sensitive part of the stack. If Chromium issues show up in production, the next hardening step is moving export to a dedicated browser worker or slimmer serverless Chromium setup.
 
 ## Next Recommended Steps
 

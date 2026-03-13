@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+
+import { getSiteUrl } from "@/lib/config/site";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,6 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AI Magazine OS",
   description: "Structured editorial operating system for dynamic magazine publishing.",
+  metadataBase: new URL(getSiteUrl()),
 };
 
 export default function RootLayout({

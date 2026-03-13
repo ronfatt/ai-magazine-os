@@ -38,6 +38,8 @@ interface TemplateRow {
   created_at: string;
 }
 
+export const maxDuration = 60;
+
 export async function POST(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
